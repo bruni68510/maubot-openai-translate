@@ -148,7 +148,14 @@ class OpenAITranslate(Plugin):
             await self._session.close()
             self._session = None
         await super().stop()
-
+    
+    @event.on(EventType.ROOM_MESSAGE)
+    async def handler(self, event: MessageEvent) -> None:
+        if event.sender == "@christophe:chat.bruni68510.me":
+            await tr(event,"!tr fr " + event.body)        
+        elif event.sender == "@marina:chat.bruni68510.me"):
+            await tr(event,"!tr fr " + event.body)    
+        
     @command.new(name="tr", help="Translate a message. Usage: !tr <language_code> <message>")
     @command.argument("args", pass_raw=True, required=True)
     async def tr(self, evt: MessageEvent, args: str) -> None:
